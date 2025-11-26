@@ -328,8 +328,8 @@ class Likelihood:
         #print((b-a)**2*(1-alpha-eps)**2)
         #print((b-a)**2*(alpha-eps)**2)
     
-        exp_minus = np.exp(-2*n*eps**2/((b-a)**2*(1-alpha-eps)**2))  # for Z^-
-        exp_plus = np.exp(-2*n*eps**2/((b-a)**2*(alpha-eps)**2))    # for -Z^+
+        exp_minus = np.exp(-2*n*eps**2/b**2)  # for Z^-
+        exp_plus = np.exp(-2*n*eps**2/b**2)    # for -Z^+
         
         # return the required probability bound
 
@@ -364,10 +364,10 @@ class Likelihood:
         nu = varianceBound
 
         # computing the necessary constants
-        nu_p = min(nu,b*alpha)*(1-alpha+eps)+nu*(alpha**2+eps**2 - alpha*eps)
-        nu_m = min(nu,b*alpha)*(1-alpha-eps)+nu*(alpha**2+eps**2 + alpha*eps)
+        nu_p = min(nu,b*alpha)*(1-alpha+eps)**2 + min(nu,b*(1-alpha))*(-alpha+eps)**2   # (alpha**2+eps**2 - alpha*eps)
+        nu_m = min(nu,b*alpha)*(1-alpha-eps)**2 + min(nu,b*(1-alpha))*(-alpha-eps)**2
 
-        a_p = -a*(-alpha+eps)
+        a_p = b*(alpha-eps)
         b_m = b*(1-alpha-eps)
         #print("epsilon =", epsilon)
         #print(b_m<= -nu_m/epsilon)
